@@ -14,6 +14,9 @@ function App() {
         <Stat title="Students" endpoint="/students" />
         <Stat title="Teachers" endpoint="/teachers" />
         <Stat title="Classes" endpoint="/classes" />
+        <Stat title="Invoices" endpoint="/invoices" />
+        <Stat title="Payments" endpoint="/payments" />
+        <Stat title="Announcements" endpoint="/announcements" />
       </div>
     ),
     students: (
@@ -77,31 +80,73 @@ function App() {
       </div>
     ),
     finance: (
-      <div>
-        <SectionHeader title="Invoices" subtitle="Recent fee invoices" />
-        <EntityList
-          title="Invoices"
-          endpoint="/invoices"
-          columns={[
-            { key: "invoice_number", label: "Invoice #" },
-            { key: "student_id", label: "Student" },
-            { key: "amount", label: "Amount" },
-            { key: "status", label: "Status" },
-          ]}
-          createFields={[
-            { name: "student_id", label: "Student ID", type: "text", required: true },
-            { name: "invoice_number", label: "Invoice #", type: "text", required: true },
-            { name: "issue_date", label: "Issue Date", type: "date", required: true },
-            { name: "due_date", label: "Due Date", type: "date", required: true },
-            { name: "amount", label: "Amount", type: "number", required: true },
-          ]}
-        />
+      <div className="space-y-8">
+        <div>
+          <SectionHeader title="Invoices" subtitle="Recent fee invoices" />
+          <EntityList
+            title="Invoices"
+            endpoint="/invoices"
+            columns={[
+              { key: "invoice_number", label: "Invoice #" },
+              { key: "student_id", label: "Student" },
+              { key: "amount", label: "Amount" },
+              { key: "paid", label: "Paid" },
+              { key: "balance", label: "Balance" },
+              { key: "status", label: "Status" },
+            ]}
+            createFields={[
+              { name: "student_id", label: "Student ID", type: "text", required: true },
+              { name: "invoice_number", label: "Invoice #", type: "text", required: true },
+              { name: "issue_date", label: "Issue Date", type: "date", required: true },
+              { name: "due_date", label: "Due Date", type: "date", required: true },
+              { name: "amount", label: "Amount", type: "number", required: true },
+            ]}
+          />
+        </div>
+        <div>
+          <SectionHeader title="Payments" subtitle="Recorded payments" />
+          <EntityList
+            title="Payments"
+            endpoint="/payments"
+            columns={[
+              { key: "invoice_id", label: "Invoice" },
+              { key: "student_id", label: "Student" },
+              { key: "amount", label: "Amount" },
+              { key: "date", label: "Date" },
+              { key: "method", label: "Method" },
+              { key: "reference", label: "Reference" },
+            ]}
+            createFields={[
+              { name: "invoice_id", label: "Invoice ID", type: "text", required: true },
+              { name: "student_id", label: "Student ID", type: "text", required: true },
+              { name: "amount", label: "Amount", type: "number", required: true },
+              { name: "date", label: "Date", type: "date", required: true },
+              { name: "method", label: "Method", type: "text", required: true },
+              { name: "reference", label: "Reference", type: "text" },
+            ]}
+          />
+        </div>
       </div>
     ),
     announcements: (
       <div>
         <SectionHeader title="Announcements" subtitle="School-wide communications" />
-        <p className="text-blue-200">Coming soon…</p>
+        <EntityList
+          title="Announcements"
+          endpoint="/announcements"
+          columns={[
+            { key: "title", label: "Title" },
+            { key: "audience", label: "Audience" },
+            { key: "pinned", label: "Pinned" },
+            { key: "published_at", label: "Published" },
+          ]}
+          createFields={[
+            { name: "title", label: "Title", type: "text", required: true },
+            { name: "body", label: "Body", type: "text", required: true },
+            { name: "audience", label: "Audience", type: "text" },
+            { name: "published_at", label: "Published At", type: "datetime-local" },
+          ]}
+        />
       </div>
     ),
   }), []);
