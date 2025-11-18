@@ -29,6 +29,12 @@ function App() {
             { key: "class_id", label: "Class" },
             { key: "status", label: "Status" },
           ]}
+          createFields={[
+            { name: "admission_number", label: "Admission #", type: "text", required: true },
+            { name: "first_name", label: "First Name", type: "text", required: true },
+            { name: "last_name", label: "Last Name", type: "text", required: true },
+            { name: "class_id", label: "Class ID", type: "text" },
+          ]}
         />
       </div>
     ),
@@ -44,6 +50,11 @@ function App() {
             { key: "email", label: "Email" },
             { key: "status", label: "Status" },
           ]}
+          createFields={[
+            { name: "first_name", label: "First Name", type: "text", required: true },
+            { name: "last_name", label: "Last Name", type: "text", required: true },
+            { name: "email", label: "Email", type: "email", required: true },
+          ]}
         />
       </div>
     ),
@@ -57,6 +68,10 @@ function App() {
             { key: "name", label: "Name" },
             { key: "year", label: "Year" },
             { key: "class_teacher_id", label: "Class Teacher" },
+          ]}
+          createFields={[
+            { name: "name", label: "Name", type: "text", required: true },
+            { name: "year", label: "Year", type: "number", required: true },
           ]}
         />
       </div>
@@ -72,6 +87,13 @@ function App() {
             { key: "student_id", label: "Student" },
             { key: "amount", label: "Amount" },
             { key: "status", label: "Status" },
+          ]}
+          createFields={[
+            { name: "student_id", label: "Student ID", type: "text", required: true },
+            { name: "invoice_number", label: "Invoice #", type: "text", required: true },
+            { name: "issue_date", label: "Issue Date", type: "date", required: true },
+            { name: "due_date", label: "Due Date", type: "date", required: true },
+            { name: "amount", label: "Amount", type: "number", required: true },
           ]}
         />
       </div>
@@ -105,7 +127,9 @@ function Stat({ title, endpoint }) {
         const base = import.meta.env.VITE_BACKEND_URL;
         const res = await fetch(`${base}${endpoint}`);
         const data = await res.json();
-        setCount(Array.isArray(data) ? data.length : 0);
+        if (Array.isArray(data)) setCount(data.length);
+        else if (data && Array.isArray(data.items)) setCount(data.items.length);
+        else setCount(0);
       } catch {}
     };
     load();
